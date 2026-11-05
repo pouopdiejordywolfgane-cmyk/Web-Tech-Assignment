@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="Game.css">
+</head>
+<body>
+
+    <h1>Tic Tac Toe</h1>
+    <p id="status">Player X turn</p>
+
+    <div id="board">
+        <div class="cell" onclick="play(0)"></div>
+        <div class="cell" onclick="play(1)"></div>
+        <div class="cell" onclick="play(2)"></div>
+        <div class="cell" onclick="play(3)"></div>
+        <div class="cell" onclick="play(4)"></div>
+        <div class="cell" onclick="play(5)"></div>
+        <div class="cell" onclick="play(6)"></div>
+        <div class="cell" onclick="play(7)"></div>
+        <div class="cell" onclick="play(8)"></div>
+    </div>
+
+    <br>
+    <button onclick="reset()">Reset Game</button>
+
+    <script>
+        var board = ["", "", "", "", "", "", "", "", ""];
+        var current = "X";
+        var gameOver = false;
+
+        function play(index) {
+            if (board[index] != "" || gameOver == true) {
+                return;
+            }
+
+            board[index] = current;
+            document.getElementsByClassName("cell")[index].innerHTML = current;
+
+            if (checkWin()) {
+                document.getElementById("status").innerHTML = "Player " + current + " wins!";
+                gameOver = true;
+                return;
+            }
+
+            // check draw
+            var full = true;
+            for (var i = 0; i < 9; i++) {
+                if (board[i] == "") {
+                    full = false;
+                }
+            }
+
+            if (full == true) {
+                document.getElementById("status").innerHTML = "Draw!";
+                gameOver = true;
+                return;
+            }
+
+            // change player
+            if (current == "X") {
+                current = "O";
+            } else {
+                current = "X";
+            }
+
+            document.getElementById("status").innerHTML = "Player " + current + " turn";
+        }
+
+        function checkWin() {
+            // rows
+            if (board[0] == current && board[1] == current && board[2] == current) return true;
+            if (board[3] == current && board[4] == current && board[5] == current) return true;
+            if (board[6] == current && board[7] == current && board[8] == current) return true;
+
+            // columns
+            if (board[0] == current && board[3] == current && board[6] == current) return true;
+            if (board[1] == current && board[4] == current && board[7] == current) return true;
+            if (board[2] == current && board[5] == current && board[8] == current) return true;
+
+            // diagonals
+            if (board[0] == current && board[4] == current && board[8] == current) return true;
+            if (board[2] == current && board[4] == current && board[6] == current) return true;
+
+            return false;
+        }
+
+        function reset() {
+            board = ["", "", "", "", "", "", "", "", ""];
+            current = "X";
+            gameOver = false;
+            document.getElementById("status").innerHTML = "Player X turn";
+
+            var cells = document.getElementsByClassName("cell");
+            for (var i = 0; i < 9; i++) {
+                cells[i].innerHTML = "";
+            }
+        }
+    </script>
+
+</body>
+</html>
